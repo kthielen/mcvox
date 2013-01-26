@@ -54,21 +54,23 @@ template <typename CT>
 	}
 
 template <int N>
-	value wavg(const channel red[N], const channel green[N], const channel blue[N], const double w[N]) {
-		double rs = 0.0, gs = 0.0, bs = 0.0;
+	value wavg(const channel red[N], const channel green[N], const channel blue[N], const channel alpha[N], const double w[N]) {
+		double rs = 0.0, gs = 0.0, bs = 0.0, as = 0.0;
 		double s = 0.0;
 		for (unsigned int i = 0; i < N; ++i) {
 			rs += double(red  [i]) * w[i];
 			gs += double(green[i]) * w[i];
 			bs += double(blue [i]) * w[i];
+			as += double(alpha[i]) * w[i];
 			s  += w[i];
 		}
 
 		rs /= s;
 		gs /= s;
 		bs /= s;
+		as /= s;
 
-		return make(int(rs), int(gs), int(bs));
+		return make(int(rs), int(gs), int(bs), int(as));
 	}
 
 inline std::string show(value c) {
@@ -80,28 +82,16 @@ template <int N>
 		channel r[N];
 		channel g[N];
 		channel b[N];
+		channel a[N];
 
 		for (unsigned int i = 0; i < N; ++i) {
 			r[i] = red  (cs[i]);
 			g[i] = green(cs[i]);
 			b[i] = blue (cs[i]);
+			a[i] = alpha(cs[i]);
 		}
 
-		value result = wavg<N>(r, g, b, w);
-/*
-		std::cout << "[";
-		for (unsigned int i = 0; i < N; ++i) {
-			if (i > 0) std::cout << "; ";
-			std::cout << show(cs[i]);
-		}
-		std::cout << "] * [";
-		for (unsigned int i = 0; i < N; ++i) {
-			if (i > 0) std::cout << "; ";
-			std::cout << w[i];
-		}
-		std::cout << "] = " << show(result) << std::endl;
-*/
-		return result;
+		return wavg<N>(r, g, b, a, w);
 	}
 
 }

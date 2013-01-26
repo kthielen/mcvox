@@ -30,14 +30,13 @@ unsigned int texture::height() const {
 }
 
 color::value texture::texel(double u, double v) const {
-	color::value r = texel(int(floor(u)), int(floor(v)));
-	std::cout << "texel(" << u << ", " << v << ") = " << color::show(r) << std::endl;
-	return r;
-/*
-	int    xs[2] = { int(floor(u)),             int(ceil(u)) };
-	double xw[2] = { 1.0 - (u - double(xs[0])), 1.0 - (double(xs[1]) - u) };
-	int    ys[2] = { int(floor(v)),             int(ceil(v)) };
-	double yw[2] = { 1.0 - (v - double(ys[0])), 1.0 - (double(ys[1]) - v) };
+	double fx = double(this->cx) * u;
+	double fy = double(this->cy) * v;
+
+	int    xs[2] = { int(floor(fx)),       int(ceil(fx)) };
+	double xw[2] = { 1.0 - (u - floor(u)), 1.0 - (ceil(u) - u) };
+	int    ys[2] = { int(floor(fy)),       int(ceil(fy)) };
+	double yw[2] = { 1.0 - (v - floor(v)), 1.0 - (ceil(v) - v) };
 
 	color::value cs[] = {
 		texel(xs[0], ys[0]),
@@ -54,7 +53,6 @@ color::value texture::texel(double u, double v) const {
 	};
 
 	return color::wavgc<4>(cs, ws);
-*/
 }
 
 color::value texture::texel(int tx, int ty) const {
