@@ -192,7 +192,7 @@ template <typename Char>
         unsigned int begin = 0;
         unsigned int end   = 0;
 
-        for (int i = 0; i < s.size(); ++i)
+        for (int i = 0; i < int(s.size()); ++i)
         {
             if (!is_whitespace<Char>(s[i]))
             {
@@ -280,6 +280,20 @@ template <typename Char>
 
         return ret;
     }
+
+template <typename Char>
+	std::basic_string<Char> cdelim(const std::vector< std::basic_string<Char> >& xs, const std::basic_string<Char>& delim) {
+		if (xs.size() == 0) {
+			return std::basic_string<Char>();
+		} else {
+			std::basic_string<Char> result = xs[0];
+			for (typename std::vector< std::basic_string<Char> >::const_iterator x = xs.begin() + 1; x != xs.end(); ++x) {
+				result += delim;
+				result += *x;
+			}
+			return result;
+		}
+	}
 
 typedef std::vector<std::string> StrVec;
 
