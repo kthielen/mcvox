@@ -103,7 +103,7 @@ void reader::processCommand(const std::string& basedir, const std::string& cn, c
 		} else {
 			throw std::runtime_error("No such texture: " + args[0]);
 		}
-	} else if (cn == "g") {
+	} else if (cn == "g" || cn == "o" || cn == "s") {
 		// redundant 'usemtl' command
 	} else if (cn == "mtllib") {
 		readTextures(basedir + "/" + args[0]);

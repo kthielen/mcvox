@@ -55,7 +55,11 @@ void triset::rasterize(const geom::triangle& tri) {
 			for (int xi = 0; xi < 2; ++xi) {
 				for (int yi = 0; yi < 2; ++yi) {
 					for (int zi = 0; zi < 2; ++zi) {
-						putVoxel(cell(pxs[xi], pys[yi], pzs[zi]), c);
+						int vx = std::min<int>(pxs[xi], width()  - 1);
+						int vy = std::min<int>(pys[yi], height() - 1);
+						int vz = std::min<int>(pzs[zi], depth()  - 1);
+
+						putVoxel(cell(vx, vy, vz), c);
 					}
 				}
 			}
